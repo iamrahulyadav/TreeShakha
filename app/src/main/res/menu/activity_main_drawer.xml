@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_dashboard"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="Dashboard" />
+        <item
+            android:id="@+id/nav_gift"
+            android:icon="@drawable/ic_menu_gallery"
+            android:title="Gift A Tree" />
+        <item
+            android:id="@+id/nav_order_history"
+            android:icon="@drawable/history"
+            android:title="Order History" />
+        <item
+            android:id="@+id/nav_tracktree"
+            android:icon="@drawable/ic_menu_slideshow"
+            android:title="Track Your Tree" />
+        <item
+            android:id="@+id/nav_myteam"
+            android:icon="@drawable/myteam"
+            android:title="My Team" />
+        <item
+            android:id="@+id/nav_share"
+            android:icon="@drawable/ic_menu_share"
+            android:title="Share" />
+        <item
+            android:id="@+id/nav_rateus"
+            android:icon="@drawable/ic_menu_send"
+            android:title="Rate Us" />
+        <item android:id="@+id/nav_aboutus"
+            android:icon="@drawable/about_icons"
+            android:title="About Us"
+            />
+
+        <item android:id="@+id/nav_privacy"
+            android:icon="@drawable/privacy"
+            android:title="Privacy Policy"
+            />    </group>
+
+
+</menu>

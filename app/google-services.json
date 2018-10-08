@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "822252367829",
+    "firebase_url": "https://planttree-app.firebaseio.com",
+    "project_id": "planttree-app",
+    "storage_bucket": "planttree-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:822252367829:android:5aaafd13e37b619d",
+        "android_client_info": {
+          "package_name": "controller.android.treedreamapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "822252367829-oopoopm1u42aqfscq7mbpgd2m6h5bs5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCnG23Z-Wx97nILUG7MxIoWD8krRdWToIE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
