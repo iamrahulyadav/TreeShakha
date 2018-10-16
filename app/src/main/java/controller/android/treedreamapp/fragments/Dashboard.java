@@ -30,6 +30,7 @@ import java.util.List;
 import java.util.Locale;
 
 import controller.android.treedreamapp.R;
+import controller.android.treedreamapp.common.Config;
 
 
 public class Dashboard extends Fragment implements OnMapReadyCallback,LocationListener {
@@ -44,7 +45,7 @@ public class Dashboard extends Fragment implements OnMapReadyCallback,LocationLi
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_dashboard, null,false);
-
+        Config.SHOWHOME = false;
         mapFragment = (SupportMapFragment) this.getChildFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
@@ -114,7 +115,7 @@ public class Dashboard extends Fragment implements OnMapReadyCallback,LocationLi
 
     @Override
     public void onProviderDisabled(String provider) {
-        Toast.makeText(getActivity(), "Please Enable GPS and Internet", Toast.LENGTH_SHORT).show();
+       // Toast.makeText(getActivity(), "Please Enable GPS and Internet", Toast.LENGTH_SHORT).show();
     }
 
     @Override

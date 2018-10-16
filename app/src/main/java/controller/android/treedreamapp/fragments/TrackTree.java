@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import controller.android.treedreamapp.R;
+import controller.android.treedreamapp.common.Config;
 
 public class TrackTree extends Fragment {
     private View rootView;
@@ -17,6 +18,7 @@ public class TrackTree extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_track, null,false);
+        Config.SHOWHOME = true;
         return rootView;
     }
 }

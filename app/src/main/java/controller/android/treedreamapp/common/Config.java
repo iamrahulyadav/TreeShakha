@@ -26,7 +26,7 @@ public class Config {
     public static final String PUSH_NOTIFICATION = "pushNotification";
     public static final int NOTIFICATION_ID = 100;
     public static final int NOTIFICATION_ID_BIG_IMAGE = 101;
-
+    public static boolean SHOWHOME = false;
     public static String SUCCESS = "success";
     public static String ERROR = "error";
     public static String STATUS = "statuscode";

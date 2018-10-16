@@ -1,8 +1,5 @@
 apply plugin: 'com.android.application'
 
-//apply plugin: 'kotlin-android'
-
-//apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion 27
@@ -24,6 +21,10 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation('com.paytm:pgplussdk:1.2.3') {
+        transitive = true;
+    }
+
     implementation 'com.android.support:appcompat-v7:27.1.1'
     implementation 'com.android.support:design:27.1.1'
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'

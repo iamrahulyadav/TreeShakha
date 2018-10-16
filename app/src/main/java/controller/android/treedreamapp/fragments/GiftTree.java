@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import controller.android.treedreamapp.R;
+import controller.android.treedreamapp.common.Config;
 
 public class GiftTree extends Fragment {
     private View rootView;
@@ -17,6 +18,7 @@ public class GiftTree extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_gift, null,false);
+        Config.SHOWHOME = true;
         return rootView;
     }
 }

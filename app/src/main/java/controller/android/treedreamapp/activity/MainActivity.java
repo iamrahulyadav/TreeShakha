@@ -1,16 +1,20 @@
 package controller.android.treedreamapp.activity;
 
+import android.Manifest;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -28,10 +32,13 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.squareup.picasso.Picasso;
 
+
 import controller.android.treedreamapp.R;
+import controller.android.treedreamapp.common.Config;
 import controller.android.treedreamapp.common.UserSessionManager;
 import controller.android.treedreamapp.fragments.About;
 import controller.android.treedreamapp.fragments.Dashboard;
+import controller.android.treedreamapp.fragments.GiftCategoryFragment;
 import controller.android.treedreamapp.fragments.GiftTree;
 import controller.android.treedreamapp.fragments.MyTeam;
 import controller.android.treedreamapp.fragments.OrderHistory;
@@ -57,11 +64,23 @@ private ImageView userProfile;
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+               /* Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();*/
+                Fragment fragment = new GiftCategoryFragment();
+                Config.SHOWHOME = false;
+                updateTitle("Select Gift Tree Category");
+                if (fragment != null) {
+                    FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                    ft.replace(R.id.frame, fragment);
+                    ft.commit();
+                }
+
             }
         });
 
+        if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_SMS) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.READ_SMS, Manifest.permission.RECEIVE_SMS}, 101);
+        }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -84,7 +103,7 @@ private ImageView userProfile;
                 String email = user.getEmail();
                 Uri photoUrl = user.getPhotoUrl();
                 String uid = user.getUid();
-                Log.d("pic path: ",""+photoUrl.getPath());
+               // Log.d("pic path: ",""+photoUrl.getPath());
                 userName.setText(name);
                 userEmail.setText(email);
                 //Picasso.with(MainActivity.this).load().into(userProfile);
@@ -104,7 +123,19 @@ private ImageView userProfile;
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            if(Config.SHOWHOME){
+                Fragment fragment = new Dashboard();
+                Config.SHOWHOME = false;
+                updateTitle("Dashboard");
+                if (fragment != null) {
+                    FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                    ft.replace(R.id.frame, fragment);
+                    ft.commit();
+                }
+            }
+            else {
+                super.onBackPressed();
+            }
         }
     }
 
@@ -124,6 +155,9 @@ private ImageView userProfile;
         LoginManager.getInstance().logOut();
         goLoginScreen();
     }
+
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.webkit.WebView;
 
 import controller.android.treedreamapp.R;
+import controller.android.treedreamapp.common.Config;
 
 public class About extends Fragment {
     private View rootView;
@@ -141,7 +142,7 @@ public class About extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_about, null,false);
-
+        Config.SHOWHOME = true;
         WebView webview = (WebView)rootView.findViewById(R.id.privacy);
         webview.getSettings().setJavaScriptEnabled(true);
         webview.loadDataWithBaseURL("", data, "text/html", "UTF-8", "");

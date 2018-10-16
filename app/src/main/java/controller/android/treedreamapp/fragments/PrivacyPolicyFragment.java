@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.webkit.WebView;
 
 import controller.android.treedreamapp.R;
+import controller.android.treedreamapp.common.Config;
 
 public class PrivacyPolicyFragment extends Fragment{
     String data = "<h1>Privacy Policy</h1>\n" +
@@ -140,7 +141,7 @@ public class PrivacyPolicyFragment extends Fragment{
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_privacy,null, false);
-
+        Config.SHOWHOME = true;
         WebView webview = (WebView)view.findViewById(R.id.privacy);
         webview.getSettings().setJavaScriptEnabled(true);
         webview.loadDataWithBaseURL("", data, "text/html", "UTF-8", "");
