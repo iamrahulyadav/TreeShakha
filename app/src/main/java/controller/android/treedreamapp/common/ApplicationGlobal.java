@@ -23,6 +23,8 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
+import com.facebook.FacebookSdk;
+import com.facebook.appevents.AppEventsLogger;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -55,7 +57,8 @@ public class ApplicationGlobal extends Application
         super.onCreate();
         singletonInstance = this;
         context = getApplicationContext();
-
+        FacebookSdk.sdkInitialize(getApplicationContext());
+        AppEventsLogger.activateApp(this);
         callBackinerface = new CallBackInterface() {
             @Override
             public void onJsonObjectSuccess(JSONObject object) {

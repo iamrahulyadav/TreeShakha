@@ -20,8 +20,16 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.facebook.login.LoginManager;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.squareup.picasso.Picasso;
 
 import controller.android.treedreamapp.R;
+import controller.android.treedreamapp.common.UserSessionManager;
 import controller.android.treedreamapp.fragments.About;
 import controller.android.treedreamapp.fragments.Dashboard;
 import controller.android.treedreamapp.fragments.GiftTree;
@@ -34,6 +42,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 private Toolbar toolbar;
 private FloatingActionButton fab;
 private Context context;
+private TextView userName,userEmail;
+private ImageView userProfile;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +51,7 @@ private Context context;
         setContentView(R.layout.activity_main);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        final UserSessionManager userSessionManager=new UserSessionManager(this);
         context = MainActivity.this;
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -61,6 +72,30 @@ private Context context;
         navigationView.setNavigationItemSelectedListener(this);
 
         onSelectItem(R.id.nav_dashboard);
+
+        View headerLayout = navigationView.getHeaderView(0);
+        userProfile = headerLayout.findViewById(R.id.userProfile);
+        userName = headerLayout.findViewById(R.id.userName);
+        userEmail = headerLayout.findViewById(R.id.userEmail);
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        try {
+            if (user != null) {
+                String name = user.getDisplayName();
+                String email = user.getEmail();
+                Uri photoUrl = user.getPhotoUrl();
+                String uid = user.getUid();
+                Log.d("pic path: ",""+photoUrl.getPath());
+                userName.setText(name);
+                userEmail.setText(email);
+                //Picasso.with(MainActivity.this).load().into(userProfile);
+                Picasso.get().load("https://graph.facebook.com/" + photoUrl.getPath()+ "?type=large").into(userProfile);
+
+            } else {
+                goLoginScreen();
+            }
+        }catch (NullPointerException e){
+            Log.e("NullPointerExzcep: ",""+e.getLocalizedMessage());
+        }
     }
 
     @Override
@@ -71,6 +106,23 @@ private Context context;
         } else {
             super.onBackPressed();
         }
+    }
+
+    private void goLoginScreen() {
+        Intent intent = new Intent(this, Login_Activity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+    }
+
+    public void logout(View view) {
+        FirebaseAuth.getInstance().signOut();
+        LoginManager.getInstance().logOut();
+        goLoginScreen();
+    }
+    private void logout() {
+        FirebaseAuth.getInstance().signOut();
+        LoginManager.getInstance().logOut();
+        goLoginScreen();
     }
 
     @Override
@@ -138,6 +190,10 @@ private Context context;
         }else if(id == R.id.nav_privacy){
             title = "Privacy Policy";
             fragment = new PrivacyPolicyFragment();
+        }else if(id == R.id.nav_login){
+             logout();
+            fragment = new Dashboard();
+            title = "Dashboard";
         }
         //replacing the fragment
         updateTitle(title);

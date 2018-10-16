@@ -78,7 +78,7 @@ public class FCMMessageHandler extends FirebaseMessagingService {
 
 
     private void sendNotification(RemoteMessage fcmMessage) {
-        String CHANNEL_ID = "TechQuiz_Channel_id";
+        String CHANNEL_ID = "TreeDreams_Channel_id";
         Intent intent = new Intent(this, MainActivity.class);
          Bundle extras = new Bundle();
 
