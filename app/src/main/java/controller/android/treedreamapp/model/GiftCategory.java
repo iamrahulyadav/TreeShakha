@@ -1,6 +1,9 @@
 package controller.android.treedreamapp.model;
 
-public class GiftCategory {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class GiftCategory implements Parcelable {
     private int id;
     private String name;
 
@@ -13,6 +16,9 @@ public class GiftCategory {
     }
 
     private int price;
+    public GiftCategory(){
+
+    }
 
     public int getId() {
         return id;
@@ -39,5 +45,39 @@ public class GiftCategory {
     }
 
     private String icon;
+
+
+    public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
+        public GiftCategory createFromParcel(Parcel in) {
+            return new GiftCategory(in);
+        }
+
+        public GiftCategory[] newArray(int size) {
+            return new GiftCategory[size];
+        }
+    };
+
+
+    // Parcelling part
+    public GiftCategory(Parcel in){
+        this.id = in.readInt();
+        this.name = in.readString();
+        this.price =  in.readInt();
+        this.icon = in.readString();
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(this.id);
+        dest.writeString(this.name);
+        dest.writeInt(this.price);
+        dest.writeString(this.icon);
+    }
+
 
 }

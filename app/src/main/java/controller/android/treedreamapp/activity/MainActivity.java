@@ -132,6 +132,15 @@ private ImageView userProfile;
                     ft.replace(R.id.frame, fragment);
                     ft.commit();
                 }
+            }if(Config.SHOWCATEGORY){
+                Fragment fragment = new GiftCategoryFragment();
+                Config.SHOWHOME = false;
+                updateTitle("Select Gift Tree Category");
+                if (fragment != null) {
+                    FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                    ft.replace(R.id.frame, fragment);
+                    ft.commit();
+                }
             }
             else {
                 super.onBackPressed();
@@ -238,8 +247,12 @@ private ImageView userProfile;
         }
     }
 
-    private void updateTitle(String title){
-        toolbar.setTitle(title);
+    public  void updateTitle(String title){
+        try {
+            toolbar.setTitle(title);
+        }catch (NullPointerException e){
+            Log.e("NullPointerExcep: ",""+e.getLocalizedMessage());
+        }
     }
 
     private void rateMe(){
