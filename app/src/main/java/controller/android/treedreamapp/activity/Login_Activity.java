@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.android.volley.Request;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -35,6 +36,9 @@ import org.json.JSONObject;
 import java.util.Arrays;
 
 import controller.android.treedreamapp.R;
+import controller.android.treedreamapp.common.Api_Url;
+import controller.android.treedreamapp.common.CallBackInterface;
+import controller.android.treedreamapp.common.CallWebService;
 import controller.android.treedreamapp.common.Config;
 import controller.android.treedreamapp.common.UserSessionManager;
 
@@ -67,7 +71,7 @@ public class Login_Activity extends AppCompatActivity {
         signin=(Button) findViewById(R.id.btnsigninlogin);
        // FixedValue.SHOWCATAGORY = true;
 
-        final UserSessionManager userSessionManager=new UserSessionManager(this);
+        userSessionManager = new UserSessionManager(this);
 
         signin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -113,6 +117,7 @@ public class Login_Activity extends AppCompatActivity {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
 
                 if (user != null) {
+                    Log.d("Firebase Token: ",""+user.getIdToken(true).getResult().getToken());
                     userSessionManager.updateUserLoggedIN(true);
                     goMainScreen();
                 }
@@ -146,9 +151,18 @@ public class Login_Activity extends AppCompatActivity {
         try {
             // JSON Parsing of data
             JSONObject obj=new JSONObject(data1);
-            if(obj.getBoolean("statuscode"))
+            if(obj.getBoolean("success"))
             {
-                String ss=obj.getString("data");
+
+                String ss=obj.getString("user");
+                JSONObject objdata=new JSONObject(ss);
+                int userId = objdata.getInt("id");
+                String mobile = objdata.getString("mobile");
+                String useremail = objdata.getString("email");
+                String name = objdata.getString("name");
+                String auth_token = objdata.getString("authentication_token");
+
+               /* String ss=obj.getString("data");
                 JSONObject objdata=new JSONObject(ss);
                 userSessionManager.createUserLoginSession(email,objdata.getString("user_id"));
 
@@ -156,6 +170,18 @@ public class Login_Activity extends AppCompatActivity {
 
                 Intent mainintent = new Intent(Login_Activity.this, MainActivity.class);
                 startActivity(mainintent);
+                finish();*/
+
+
+
+                Intent verifyMobile = new Intent(Login_Activity.this, VerifyMobileNumber.class);
+                verifyMobile.putExtra("name", name);
+                verifyMobile.putExtra("id", userId);
+                verifyMobile.putExtra("email", useremail);
+                verifyMobile.putExtra("mobile", mobile);
+                verifyMobile.putExtra("auth_token",auth_token);
+                verifyMobile.putExtra("via", "normal");
+                startActivity(verifyMobile);
                 finish();
                 overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
 
@@ -220,13 +246,19 @@ public class Login_Activity extends AppCompatActivity {
     private JSONObject addJsonObjects(String name,String email, String mobile) {
         try {
 
+
+            JSONObject user = new JSONObject();
             JSONObject packet = new JSONObject();
-            packet.put("name", name);
             packet.put("email", email);
+            packet.put("password","123456");
+            packet.put("name", name);
+            packet.put("token","1/fFAGRNJru1FTz70BzhT3Zg");
             packet.put("phone", mobile);
 
             packet.put("fcmtoken", userSessionManager.getUserDeviceToken());
-            return packet;
+
+            user.put("user", packet);
+            return user;
         } catch (Exception e) {
             Log.e("Exception: ",""+e.getLocalizedMessage());
             return null;
@@ -234,7 +266,7 @@ public class Login_Activity extends AppCompatActivity {
     }
 
     void loginRequest( String name,String useremail,String mobile){
-        /*CallWebService.getInstance(this,true).hitJSONObjectVolleyWebServiceforPost(Request.Method.POST, Api_Url.loginUrl1, addJsonObjects(name,useremail, mobile), true, new CallBackInterface() {
+        CallWebService.getInstance(this,true).hitJSONObjectVolleyWebServiceforPost(Request.Method.POST, Api_Url.loginUrl1, addJsonObjects(name,useremail, mobile), true, new CallBackInterface() {
             @Override
             public void onJsonObjectSuccess(JSONObject object) {
                 Log.d("Quiz List: ",""+object.toString());
@@ -242,7 +274,6 @@ public class Login_Activity extends AppCompatActivity {
                     ParseData(object.toString());
 
                 } catch (NullPointerException e) {
-
                     e.printStackTrace();
                 }
             }
@@ -256,19 +287,12 @@ public class Login_Activity extends AppCompatActivity {
             public void onFailure(String str) {
 
                 Log.e("failure: ",""+str);
-                Toast.makeText(MainActivity.act,"login Faild email or password incorrect",Toast.LENGTH_SHORT).show();
+                Toast.makeText(Login_Activity.this,"login Faild email or password incorrect",Toast.LENGTH_SHORT).show();
 
             }
-        });*/
+        });
 
 
-        Intent verifyMobile = new Intent(Login_Activity.this, VerifyMobileNumber.class);
-        verifyMobile.putExtra("name", name);
-        verifyMobile.putExtra("email", useremail);
-        verifyMobile.putExtra("mobile", mobile);
-        verifyMobile.putExtra("via", "normal");
-        startActivity(verifyMobile);
-        finish();
 
     }
 }

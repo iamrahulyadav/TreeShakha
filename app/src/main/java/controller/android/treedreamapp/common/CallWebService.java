@@ -430,6 +430,8 @@ public class CallWebService {
                     params.put("X-User-Email", userPreference.getStringData(Config.KeyName.USER_EMAIL));
                 }*/
                 params.put("Content-Type", "Application/json");
+                params.put("device-type","android"); // device-type: android
+
                 return params;
             }
         };

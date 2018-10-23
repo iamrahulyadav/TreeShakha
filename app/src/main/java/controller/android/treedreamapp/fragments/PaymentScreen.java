@@ -1,5 +1,7 @@
 package controller.android.treedreamapp.fragments;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -37,6 +39,14 @@ public class PaymentScreen extends Fragment {
     private EditText quantity;
     private Button payNow;
     private int totalCost = 0;
+
+    private static final int TEZ_REQUEST_CODE = 123;
+
+    private static final String GOOGLE_TEZ_PACKAGE_NAME = "com.google.android.apps.nbu.paisa.user";
+    private View mGooglePayButton;
+
+    /** A constant integer you define to track a request for payment data activity */
+    private static final int LOAD_PAYMENT_DATA_REQUEST_CODE = 42;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -96,6 +106,28 @@ public class PaymentScreen extends Fragment {
         return rootView;
     }
 
+    private void initGoglePay(){
+        Uri uri =
+                new Uri.Builder()
+                        .scheme("upi")
+                        .authority("pay")
+                        .appendQueryParameter("pa", "test@axisbank")
+                        .appendQueryParameter("pn", "Test Merchant")
+                        .appendQueryParameter("mc", "1234")
+                        .appendQueryParameter("tr", "123456789")
+                        .appendQueryParameter("tn", "test transaction note")
+                        .appendQueryParameter("am", "10.01")
+                        .appendQueryParameter("cu", "INR")
+                        .appendQueryParameter("url", "https://test.merchant.website")
+                        .build();
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(uri);
+        intent.setPackage(GOOGLE_TEZ_PACKAGE_NAME);
+        startActivityForResult(intent, TEZ_REQUEST_CODE);
+
+
+    }
+
     private void initializePaymentGateway(String amount){
         PaytmPGService Service = PaytmPGService.getStagingService();
 
@@ -153,6 +185,18 @@ public class PaymentScreen extends Fragment {
 
 
     }
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == TEZ_REQUEST_CODE) {
+            // Process based on the data in response.
+            Log.d("result", data.getStringExtra("Status"));
+        }
+    }
+
 
 
 }
