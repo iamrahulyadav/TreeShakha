@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import controller.android.treedreamapp.R;
+import controller.android.treedreamapp.activity.MainActivity;
 import controller.android.treedreamapp.activity.RegisterActivity;
 import controller.android.treedreamapp.activity.VerifyMobileNumber;
 import controller.android.treedreamapp.adapter.CategoryAdapter;
@@ -92,7 +93,7 @@ public class GiftCategoryFragment extends Fragment {
         categoryRecyclerview.addItemDecoration(new DividerItemDecoration(getContext(),
                 DividerItemDecoration.VERTICAL));
         categoryRecyclerview.setLayoutManager(mLayoutManager);
-
+        ((MainActivity)getActivity()).updateTitle("Select Gift Tree Category");
         addData();
         Config.SHOWHOME = true;
         listener = new OnRecyclerViewItemClickListener() {

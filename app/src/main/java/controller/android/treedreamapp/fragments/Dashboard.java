@@ -12,11 +12,13 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -36,6 +38,7 @@ import java.util.List;
 import java.util.Locale;
 
 import controller.android.treedreamapp.R;
+import controller.android.treedreamapp.activity.MainActivity;
 import controller.android.treedreamapp.common.Api_Url;
 import controller.android.treedreamapp.common.CallBackInterface;
 import controller.android.treedreamapp.common.CallWebService;
@@ -55,6 +58,27 @@ public class Dashboard extends Fragment implements OnMapReadyCallback,LocationLi
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_dashboard, null,false);
         Config.SHOWHOME = false;
+
+
+        Button fab = (Button) rootView.findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Fragment fragment = new GiftCategoryFragment();
+                Config.SHOWHOME = false;
+
+                if (fragment != null) {
+                    FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+                    ft.replace(R.id.frame, fragment);
+                    ft.commit();
+                }
+
+            }
+        });
+
+
+
         mapFragment = (SupportMapFragment) this.getChildFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);

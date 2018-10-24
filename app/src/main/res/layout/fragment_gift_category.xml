@@ -9,18 +9,6 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         >
-    <TextView
-        android:id="@+id/title"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:textColor="@color/black"
-        android:textSize="18sp"
-        android:gravity="center"
-        android:background="@color/bg_login"
-        android:text="Select your Gift category"
-
-        />
-
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/giftCategory"

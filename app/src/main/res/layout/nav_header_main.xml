@@ -47,7 +47,7 @@
         android:id="@+id/goProfile"
         android:layout_width="40dp"
         android:layout_height="60dp"
-        android:padding="2dp"
+        android:padding="5dp"
         android:layout_marginTop="20dp"
         android:layout_alignParentRight="true"
         android:src="@drawable/arrow"

@@ -24,6 +24,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -60,12 +61,12 @@ private ImageView userProfile,goProfile;
         setSupportActionBar(toolbar);
         final UserSessionManager userSessionManager=new UserSessionManager(this);
         context = MainActivity.this;
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        /*Button fab = (Button) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               /* Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();*/
+               *//* Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();*//*
                 Fragment fragment = new GiftCategoryFragment();
                 Config.SHOWHOME = false;
                 updateTitle("Select Gift Tree Category");
@@ -77,7 +78,7 @@ private ImageView userProfile,goProfile;
 
             }
         });
-
+*/
         if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_SMS) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.READ_SMS, Manifest.permission.RECEIVE_SMS}, 101);
         }
@@ -181,7 +182,8 @@ private ImageView userProfile,goProfile;
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
+        //getMenuInflater().inflate(R.menu.main, menu);
+        menu.clear();
         return true;
     }
 
