@@ -1,5 +1,6 @@
 package controller.android.treedreamapp.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -12,12 +13,24 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
+import com.android.volley.Request;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import controller.android.treedreamapp.R;
+import controller.android.treedreamapp.activity.RegisterActivity;
+import controller.android.treedreamapp.activity.VerifyMobileNumber;
 import controller.android.treedreamapp.adapter.CategoryAdapter;
+import controller.android.treedreamapp.common.Api_Url;
+import controller.android.treedreamapp.common.CallBackInterface;
+import controller.android.treedreamapp.common.CallWebService;
 import controller.android.treedreamapp.common.Config;
 import controller.android.treedreamapp.interfaces.OnRecyclerViewItemClickListener;
 import controller.android.treedreamapp.model.GiftCategory;
@@ -43,13 +56,13 @@ public class GiftCategoryFragment extends Fragment {
         category1.setIcon("https://www.simplifiedcoding.net/wp-content/uploads/2015/10/advertise.png");
         category1.setId(1);
         category1.setName("Gift tree on Anniversary");
-        category1.setPrice(120);
+        category1.setPrice(1280);
 
         GiftCategory category2 = new GiftCategory();
         category2.setIcon("http://i.imgur.com/DvpvklR.png");
         category2.setId(2);
         category2.setName("Gift tree on Birthday");
-        category2.setPrice(170);
+        category2.setPrice(1700);
 
         GiftCategory category3 = new GiftCategory();
         category3.setIcon("https://www.simplifiedcoding.net/wp-content/uploads/2015/10/advertise.png");
@@ -107,4 +120,64 @@ public class GiftCategoryFragment extends Fragment {
         adapter.setListener(listener);
         return rootView;
     }
+
+
+    private JSONObject addJsonObjects() {
+        try {
+
+
+            JSONObject user = new JSONObject();
+
+
+            return user;
+        } catch (Exception e) {
+            Log.e("Exception: ",""+e.getLocalizedMessage());
+            return null;
+        }
+    }
+
+    void getCategories(){
+        CallWebService.getInstance(getActivity(),true).hitJSONObjectVolleyWebServiceforPost(Request.Method.POST, Api_Url.registationUrl, addJsonObjects(), true, new CallBackInterface() {
+            @Override
+            public void onJsonObjectSuccess(JSONObject object) {
+                Log.d("Quiz List: ",""+object.toString());
+                try {
+                    ParseData(object.toString());
+
+                } catch (NullPointerException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onJsonArrarSuccess(JSONArray array) {
+                Log.d("Contacts List: ",""+array.toString());
+            }
+
+            @Override
+            public void onFailure(String str) {
+                Log.e("failure: ",""+str);
+                Toast.makeText(getActivity(),"login Faild email or password incorrect",Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+
+    private void ParseData(String data1) {
+
+        try {
+            // JSON Parsing of data
+            JSONObject obj=new JSONObject(data1);
+            if(obj.getBoolean("success")) {
+
+                String ss = obj.getString("user");
+                JSONObject objdata = new JSONObject(ss);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
 }

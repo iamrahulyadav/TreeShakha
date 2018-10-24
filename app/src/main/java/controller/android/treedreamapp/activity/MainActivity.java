@@ -50,7 +50,7 @@ private Toolbar toolbar;
 private FloatingActionButton fab;
 private Context context;
 private TextView userName,userEmail;
-private ImageView userProfile;
+private ImageView userProfile,goProfile;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -96,6 +96,7 @@ private ImageView userProfile;
         userProfile = headerLayout.findViewById(R.id.userProfile);
         userName = headerLayout.findViewById(R.id.userName);
         userEmail = headerLayout.findViewById(R.id.userEmail);
+        goProfile = headerLayout.findViewById(R.id.goProfile);
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         try {
             if (user != null) {
@@ -115,6 +116,15 @@ private ImageView userProfile;
         }catch (NullPointerException e){
             Log.e("NullPointerExzcep: ",""+e.getLocalizedMessage());
         }
+
+
+        goProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent goProfile = new Intent(MainActivity.this, MyProfile.class);
+                startActivity(goProfile);
+            }
+        });
     }
 
     @Override

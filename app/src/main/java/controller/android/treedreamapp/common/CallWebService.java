@@ -129,18 +129,18 @@ public class CallWebService {
             public void onResponse(final JSONObject response) {
                 try {
                     busyDialogue.dismiss();
-                    if(response.has(Config.STATUS)) {
+                    /*if(response.has(Config.STATUS)) {
                         if (response.getBoolean(Config.STATUS)) {
                             callBackinerface.onJsonObjectSuccess(response);
                         } else {
                             callBackinerface.onFailure(response.optString(Config.MESSAGE));
                         }
-                    }
+                    }*/
                     if(response.has(Config.SUCCESS)){
                         if (response.getBoolean(Config.SUCCESS)) {
                             callBackinerface.onJsonObjectSuccess(response);
                         } else {
-                            callBackinerface.onFailure(response.optString(Config.MSG));
+                            callBackinerface.onFailure(response.optString(Config.MESSAGE));
                         }
                     }
                 } catch (final JSONException e) {
@@ -322,20 +322,20 @@ public class CallWebService {
             public void onResponse(final JSONObject response) {
                 try {
                     busyDialogue.dismiss();
-                    if(response.has(Config.STATUS)) {
-                        if (response.getBoolean(Config.STATUS)) {
+                    if(response.has(Config.SUCCESS)) {
+                        if (response.getBoolean(Config.SUCCESS)) {
                             callBackinerface.onJsonObjectSuccess(response);
                         } else {
                             callBackinerface.onFailure(response.optString(Config.MESSAGE));
                         }
                     }
-                    if(response.has(Config.SUCCESS)){
+                   /* if(response.has(Config.SUCCESS)){
                         if (response.getBoolean(Config.SUCCESS)) {
                             callBackinerface.onJsonObjectSuccess(response);
                         } else {
                             callBackinerface.onFailure(response.optString(Config.MSG));
                         }
-                    }
+                    }*/
                 } catch (final JSONException e) {
                     busyDialogue.dismiss();
                     callBackinerface.onFailure(e.getMessage());
@@ -388,21 +388,21 @@ public class CallWebService {
             public void onResponse(final JSONObject response) {
                 try {
                     busyDialogue.dismiss();
-                    //Log.d("Api response: ",""+response.toString());
-                    if(response.has(Config.STATUS)) {
-                        if (response.getBoolean(Config.STATUS)) {
+                    Log.d("Api response: ",""+response.toString());
+                    if(response.has(Config.SUCCESS)) {
+                        if (response.getBoolean(Config.SUCCESS)) {
                             callBackinerface.onJsonObjectSuccess(response);
                         } else {
                             callBackinerface.onFailure(response.optString(Config.MESSAGE));
                         }
                     }
-                    if(response.has(Config.SUCCESS)){
+                    /*if(response.has(Config.SUCCESS)){
                         if (response.getBoolean(Config.SUCCESS)) {
                             callBackinerface.onJsonObjectSuccess(response);
                         } else {
                             callBackinerface.onFailure(response.optString(Config.MSG));
                         }
-                    }
+                    }*/
                 } catch (final JSONException e) {
                     busyDialogue.dismiss();
                     callBackinerface.onFailure(e.getMessage());

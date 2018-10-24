@@ -31,9 +31,9 @@ public class Config {
    // public static boolean SHOWHOME = false;
     public static String SUCCESS = "success";
     public static String ERROR = "error";
-    public static String STATUS = "statuscode";
+    public static String STATUS = "status";
     public static String MESSAGE = "message";
-    public static String MSG = "msg";
+   // public static String MSG = "msg";
     public class KeyName{
 
         public static final String ISFIRSTLOGIN="first_login";

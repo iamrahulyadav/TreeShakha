@@ -1,6 +1,5 @@
 package controller.android.treedreamapp.activity;
 
-import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -10,9 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
-
 
 import com.android.volley.Request;
 import com.facebook.AccessToken;
@@ -39,53 +36,47 @@ import controller.android.treedreamapp.R;
 import controller.android.treedreamapp.common.Api_Url;
 import controller.android.treedreamapp.common.CallBackInterface;
 import controller.android.treedreamapp.common.CallWebService;
-import controller.android.treedreamapp.common.Config;
 import controller.android.treedreamapp.common.UserSessionManager;
 
 
-public class Login_Activity extends AppCompatActivity {
+public class RegisterActivity extends AppCompatActivity {
 
 
-    private EditText mobileNo,etpassword;
+    private EditText _emailText,name,mobileNo,etpassword;
     private Button signin,signup;
-    private String password,mobile;
+    private String email,nameText,mobile, password;
    // private Userdata userdata;
     private UserSessionManager userSessionManager;
 
-    private LoginButton loginButton;
-    private CallbackManager callbackManager;
+    //private LoginButton loginButton;
+    //private CallbackManager callbackManager;
 
-    private FirebaseAuth firebaseAuth;
-    private FirebaseAuth.AuthStateListener firebaseAuthListener;
+    //private FirebaseAuth firebaseAuth;
+    //private FirebaseAuth.AuthStateListener firebaseAuthListener;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_register);
         // listener = (UpdateListener) LoginActivity.this;
 
-        mobileNo=(EditText) findViewById(R.id.etmobile);
-        etpassword=(EditText) findViewById(R.id.etpassword);
+
+        etpassword=(EditText) findViewById(R.id.password);
+        _emailText=(EditText) findViewById(R.id.etemaillogin);
+        name=(EditText) findViewById(R.id.etename);
+        mobileNo=(EditText) findViewById(R.id.etphone);
         signin=(Button) findViewById(R.id.btnsigninlogin);
         signup=(Button) findViewById(R.id.btnsignUp);
-       // FixedValue.SHOWCATAGORY = true;
 
         userSessionManager = new UserSessionManager(this);
 
         signup.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                goRegisterScreen();
-            }
-        });
-
-        signin.setOnClickListener(new View.OnClickListener() {
-            @Override
             public void onClick(View view) {
 
                 if(validate())
                 {
-                    loginRequest(mobile,password);
+                    registerRequest(nameText,email,mobile,password);
 
                 }
 
@@ -93,10 +84,19 @@ public class Login_Activity extends AppCompatActivity {
         });
 
 
+        signin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goLoginScreen();
+            }
+        });
+
+
+/*
         firebaseAuth = FirebaseAuth.getInstance();
         callbackManager = CallbackManager.Factory.create();
 
-        loginButton = (LoginButton) findViewById(R.id.loginButton);
+       // loginButton = (LoginButton) findViewById(R.id.loginButton);
 
         loginButton.setReadPermissions(Arrays.asList("email","public_profile"));
 
@@ -124,15 +124,15 @@ public class Login_Activity extends AppCompatActivity {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
 
                 if (user != null) {
-//                    Log.d("Firebase Token: ",""+user.getIdToken(true).getResult().getToken());
+                    Log.d("Firebase Token: ",""+user.getIdToken(true).getResult().getToken());
                     userSessionManager.updateUserLoggedIN(true);
                     goMainScreen();
                 }
             }
-        };
+        };*/
     }
 
-    private void handleFacebookAccessToken(AccessToken accessToken) {
+    /*private void handleFacebookAccessToken(AccessToken accessToken) {
 
         loginButton.setVisibility(View.GONE);
 
@@ -147,12 +147,14 @@ public class Login_Activity extends AppCompatActivity {
                 loginButton.setVisibility(View.VISIBLE);
             }
         });
-    }
+    }*/
 
 
 
-    public void ParseData(String data1) {
+    private void ParseData(String data1) {
 
+        // Log.d("data", getuserdata.toString());
+        // dismiss the progress dialog after receiving data from API
         try {
             // JSON Parsing of data
             JSONObject obj=new JSONObject(data1);
@@ -167,8 +169,19 @@ public class Login_Activity extends AppCompatActivity {
                 String name = objdata.getString("name");
                 String auth_token = objdata.getString("authentication_token");
 
+               /* String ss=obj.getString("data");
+                JSONObject objdata=new JSONObject(ss);
+                userSessionManager.createUserLoginSession(email,objdata.getString("user_id"));
 
-                Intent verifyMobile = new Intent(Login_Activity.this, VerifyMobileNumber.class);
+
+
+                Intent mainintent = new Intent(Login_Activity.this, MainActivity.class);
+                startActivity(mainintent);
+                finish();*/
+
+
+
+                Intent verifyMobile = new Intent(RegisterActivity.this, VerifyMobileNumber.class);
                 verifyMobile.putExtra("name", name);
                 verifyMobile.putExtra("id", userId);
                 verifyMobile.putExtra("email", useremail);
@@ -191,15 +204,8 @@ public class Login_Activity extends AppCompatActivity {
 
     }
 
-    private void goMainScreen() {
-        Intent intent = new Intent(this, MainActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
-        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-    }
-
-    private void goRegisterScreen(){
-        Intent intent = new Intent(this, RegisterActivity.class);
+    private void goLoginScreen() {
+        Intent intent = new Intent(this, Login_Activity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
@@ -208,25 +214,32 @@ public class Login_Activity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        callbackManager.onActivityResult(requestCode, resultCode, data);
+       // callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        firebaseAuth.addAuthStateListener(firebaseAuthListener);
+       //firebaseAuth.addAuthStateListener(firebaseAuthListener);
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        firebaseAuth.removeAuthStateListener(firebaseAuthListener);
+       // firebaseAuth.removeAuthStateListener(firebaseAuthListener);
     }
     public boolean validate() {
         boolean valid = true;
-
-        password = etpassword.getText().toString();
+        nameText = name.getText().toString();
+        email = _emailText.getText().toString();
         mobile = mobileNo.getText().toString();
+        password = etpassword.getText().toString();
+        if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            _emailText.setError("enter a valid email address");
+            valid = false;
+        } else {
+            _emailText.setError(null);
+        }
 
         if (mobile.isEmpty() || mobile.length() < 10) {
             mobileNo.setError("10 digit mobile number is required!");
@@ -241,21 +254,20 @@ public class Login_Activity extends AppCompatActivity {
             etpassword.setError(null);
         }
 
-
         return valid;
     }
 
 
-    private JSONObject addJsonObjects(String mobile, String password) {
+    private JSONObject addJsonObjects(String name,String email, String mobile, String password) {
         try {
 
 
             JSONObject user = new JSONObject();
             JSONObject packet = new JSONObject();
-            //packet.put("email", email);
+            packet.put("email", email);
             packet.put("password",password);
-            //packet.put("name", name);
-            //packet.put("token","1/fFAGRNJru1FTz70BzhT3Zg");
+            packet.put("name", name);
+          //  packet.put("token","1/fFAGRNJru1FTz70BzhT3Zg");
             packet.put("phone", mobile);
 
             packet.put("token", userSessionManager.getUserDeviceToken());
@@ -268,8 +280,8 @@ public class Login_Activity extends AppCompatActivity {
         }
     }
 
-    void loginRequest( String mobile,String password){
-        CallWebService.getInstance(this,true).hitJSONObjectVolleyWebServiceforPost(Request.Method.POST, Api_Url.loginUrl1, addJsonObjects( mobile, password), true, new CallBackInterface() {
+    void registerRequest(String name, String useremail, String mobile, String password){
+        CallWebService.getInstance(this,true).hitJSONObjectVolleyWebServiceforPost(Request.Method.POST, Api_Url.registationUrl, addJsonObjects(name,useremail, mobile, password), true, new CallBackInterface() {
             @Override
             public void onJsonObjectSuccess(JSONObject object) {
                 Log.d("Quiz List: ",""+object.toString());
@@ -290,7 +302,7 @@ public class Login_Activity extends AppCompatActivity {
             public void onFailure(String str) {
 
                 Log.e("failure: ",""+str);
-                Toast.makeText(Login_Activity.this,"login Faild email or password incorrect",Toast.LENGTH_SHORT).show();
+                Toast.makeText(RegisterActivity.this,"login Faild email or password incorrect",Toast.LENGTH_SHORT).show();
 
             }
         });
