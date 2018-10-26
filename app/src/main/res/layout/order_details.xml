@@ -43,26 +43,318 @@
             android:text="Rs. 1570"
             />
     </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/topLayout"
-        >
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-
+            android:orientation="vertical"
+            android:layout_below="@+id/topLayout"
             >
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Status: "
+        <LinearLayout
+            android:id="@+id/success"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/topLayout"
+            android:orientation="vertical"
+            android:visibility="visible"
+            >
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/input_login_hint"
                 />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginLeft="20dp"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:text="Status: "
+                    android:textColor="@color/input_login_hint"
+                    />
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="10dp"
+                    android:src="@drawable/double_tick_green"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:textColor="@color/input_login_hint"
+                    android:textSize="15sp"
+                    android:gravity="center_vertical"
+                    android:layout_marginLeft="3dp"
+                    android:text="Payment Successful"
+                    />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginLeft="20dp"
+                >
 
-        </LinearLayout>
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="25dp"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginLeft="10dp"
+                    android:src="@drawable/checked"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:textColor="@color/input_login_hint"
+                    android:textSize="15sp"
+                    android:gravity="center_vertical"
+                    android:layout_marginLeft="20dp"
+                    android:text="Payment Started"
+                    />
+            </LinearLayout>
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="35dp"
+                android:layout_marginLeft="29dp"
+                android:src="@drawable/vertical_dot"
+                />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="0dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginLeft="20dp"
+                >
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="25dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginLeft="10dp"
+                    android:src="@drawable/checked"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:textColor="@color/input_login_hint"
+                    android:textSize="15sp"
+                    android:gravity="center_vertical"
+                    android:layout_marginLeft="20dp"
+                    android:text="Payment processed by partner bank"
+                    />
+            </LinearLayout>
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="35dp"
+                android:layout_marginLeft="29dp"
+                android:src="@drawable/vertical_dot"
+                />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="0dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginLeft="20dp"
+                >
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="25dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginLeft="10dp"
+                    android:src="@drawable/checked"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:textColor="@color/input_login_hint"
+                    android:textSize="15sp"
+                    android:gravity="center_vertical"
+                    android:layout_marginLeft="20dp"
+                    android:text="Money is deposited in recipient's bank "
+                    />
+            </LinearLayout>
 
     </LinearLayout>
+        <LinearLayout
+            android:id="@+id/failed"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:orientation="vertical"
+            >
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/input_login_hint"
+                />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginLeft="20dp"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:text="Status: "
+                    android:gravity="center_vertical"
+                    android:textColor="@color/input_login_hint"
+                    />
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="10dp"
+                    android:src="@drawable/failed"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:textColor="@color/input_login_hint"
+                    android:textSize="15sp"
+                    android:gravity="center_vertical"
+                    android:layout_marginLeft="3dp"
+                    android:text="Payment attemp failed"
+                    />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginLeft="20dp"
+                >
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="25dp"
+                    android:layout_marginLeft="10dp"
+                    android:src="@drawable/cheched_black"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:textColor="@color/input_login_hint"
+                    android:textSize="15sp"
+                    android:gravity="center_vertical"
+                    android:layout_marginLeft="20dp"
+                    android:text="Payment Started"
+                    />
+            </LinearLayout>
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="35dp"
+                android:layout_marginLeft="29dp"
+                android:src="@drawable/vertical_dot"
+                />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="0dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginLeft="20dp"
+                >
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="25dp"
+                    android:layout_marginLeft="10dp"
+                    android:src="@drawable/info"
+                    android:rotation="180"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:textColor="@color/input_login_hint"
+                    android:textSize="15sp"
+                    android:gravity="center_vertical"
+                    android:layout_marginLeft="20dp"
+                    android:text="Payment processing by partner bank"
+                    />
+            </LinearLayout>
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="35dp"
+                android:layout_marginLeft="29dp"
+                android:src="@drawable/vertical_dot"
+                />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="0dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginLeft="20dp"
+                >
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="25dp"
+                    android:layout_marginLeft="10dp"
+                    android:src="@drawable/info"
+                    android:rotation="180"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:textColor="@color/input_login_hint"
+                    android:textSize="15sp"
+                    android:gravity="center_vertical"
+                    android:layout_marginLeft="20dp"
+                    android:text="Money deposited in recipient's bank"
+                    />
+
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:textColor="@color/input_login_hint"
+                android:textSize="15sp"
+
+                android:gravity="center_vertical"
+                android:layout_marginLeft="30dp"
+                android:text="Money deposited in recipient's bank"
+                />
+        </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/input_login_hint"
+                />
+             <TextView
+                 android:layout_width="match_parent"
+                 android:layout_height="45dp"
+                 android:textSize="16sp"
+                 android:textColor="@color/input_login_hint"
+                 android:paddingLeft="30dp"
+                 android:text="14 aug 2018  07: 25 AM"
+                 android:gravity="center_vertical"
+
+                 />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/input_login_hint"
+                />
+        </LinearLayout>
     </RelativeLayout>
 </android.support.constraint.ConstraintLayout>
