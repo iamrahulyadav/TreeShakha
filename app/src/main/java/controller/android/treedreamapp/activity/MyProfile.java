@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -20,16 +21,20 @@ import controller.android.treedreamapp.R;
 import controller.android.treedreamapp.common.Api_Url;
 import controller.android.treedreamapp.common.CallBackInterface;
 import controller.android.treedreamapp.common.CallWebService;
+import controller.android.treedreamapp.common.UserSessionManager;
 
 public class MyProfile extends AppCompatActivity   {
     private ImageView goBack;
-    private EditText name,email,mobile,address;
+    private EditText name,mobile,address;
+    private TextView email;
     private Button update;
+    private UserSessionManager userSessionManager;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+        userSessionManager = new UserSessionManager(this);
         initView();
         goBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -43,16 +48,21 @@ private void initView(){
         goBack = (ImageView) findViewById(R.id.goBack);
         update = (Button) findViewById(R.id.btnUpdate);
         name = (EditText) findViewById(R.id.eteName);
-        email = (EditText) findViewById(R.id.etEmail);
+        name.setText(userSessionManager.getUserDetails().get("name"));
+        email = (TextView) findViewById(R.id.etEmail);
+        email.setText(userSessionManager.getUserDetails().get("email"));
         mobile = (EditText) findViewById(R.id.etMobile);
+        mobile.setText(userSessionManager.getUserDetails().get("mobile"));
         address = (EditText) findViewById(R.id.etAddress);
 }
 
     private JSONObject addJsonObjects() {
         try {
-
-
             JSONObject user = new JSONObject();
+            user.put("name",name.getText().toString());
+            user.put("email",email.getText().toString());
+            user.put("mobile",mobile.getText().toString());
+            user.put("address",address.getText().toString());
 
 
             return user;
@@ -60,6 +70,13 @@ private void initView(){
             Log.e("Exception: ",""+e.getLocalizedMessage());
             return null;
         }
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.slide_out_right, R.anim.slide_in_left);
     }
 
     void getCategories(){

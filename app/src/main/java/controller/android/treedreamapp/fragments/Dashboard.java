@@ -59,7 +59,6 @@ public class Dashboard extends Fragment implements OnMapReadyCallback,LocationLi
         rootView = inflater.inflate(R.layout.fragment_dashboard, null,false);
         Config.SHOWHOME = false;
 
-
         Button fab = (Button) rootView.findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,7 +95,7 @@ public class Dashboard extends Fragment implements OnMapReadyCallback,LocationLi
             @Override
             public void onMapReady(GoogleMap googleMap) {
                 googleMaps = googleMap;
-                googleMaps.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
+                googleMaps.setMapType(GoogleMap.MAP_TYPE_NORMAL);
 
                 getLocation();
             }
@@ -117,19 +116,20 @@ public class Dashboard extends Fragment implements OnMapReadyCallback,LocationLi
                 .position(new LatLng(27.282365, 78.326144))
                 .title("Himmatpur")
                 .snippet("Peepal Tree")
-                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.tree)));
 
         googleMap.addMarker(new MarkerOptions()
                 .position(new LatLng(28.535517,77.391029))
                 .title("Noida")
                 .snippet("Banyan Tree")
-                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.tree)));
 
         googleMap.addMarker(new MarkerOptions()
                 .position(new LatLng(27.226200, 78.241900))
                 .title("Tundla Firozabad")
                  .snippet("Mango Tree")
-                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.tree)));
+                //.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
 
         googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(27.282365, 78.326144), 10));
 
@@ -199,6 +199,11 @@ public class Dashboard extends Fragment implements OnMapReadyCallback,LocationLi
 
                     // Placing a marker on the touched position
                     googleMaps.addMarker(markerOptions);
+
+
+
+
+
                 }
             });
 
@@ -218,8 +223,6 @@ public class Dashboard extends Fragment implements OnMapReadyCallback,LocationLi
 
     private JSONObject addJsonObjects() {
         try {
-
-
             JSONObject user = new JSONObject();
 
 
@@ -258,9 +261,7 @@ public class Dashboard extends Fragment implements OnMapReadyCallback,LocationLi
     }
 
     private void ParseData(String data1) {
-
         try {
-            // JSON Parsing of data
             JSONObject obj=new JSONObject(data1);
             if(obj.getBoolean("success")) {
 

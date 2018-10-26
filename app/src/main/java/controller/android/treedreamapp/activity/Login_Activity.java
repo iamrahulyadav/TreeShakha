@@ -41,6 +41,7 @@ import controller.android.treedreamapp.common.CallBackInterface;
 import controller.android.treedreamapp.common.CallWebService;
 import controller.android.treedreamapp.common.Config;
 import controller.android.treedreamapp.common.UserSessionManager;
+import controller.android.treedreamapp.views.CustomDialog;
 
 
 public class Login_Activity extends AppCompatActivity {
@@ -54,7 +55,7 @@ public class Login_Activity extends AppCompatActivity {
 
     private LoginButton loginButton;
     private CallbackManager callbackManager;
-
+    private CustomDialog busyDialogue;
     private FirebaseAuth firebaseAuth;
     private FirebaseAuth.AuthStateListener firebaseAuthListener;
     @Override
@@ -63,7 +64,7 @@ public class Login_Activity extends AppCompatActivity {
 
         setContentView(R.layout.activity_login);
         // listener = (UpdateListener) LoginActivity.this;
-
+        busyDialogue = new CustomDialog(Login_Activity.this);
         mobileNo=(EditText) findViewById(R.id.etmobile);
         etpassword=(EditText) findViewById(R.id.etpassword);
         signin=(Button) findViewById(R.id.btnsigninlogin);
@@ -103,16 +104,19 @@ public class Login_Activity extends AppCompatActivity {
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
+                busyDialogue.displayUiBlockingDialog();
                 handleFacebookAccessToken(loginResult.getAccessToken());
             }
 
             @Override
             public void onCancel() {
+                busyDialogue.dismiss();
                 Toast.makeText(getApplicationContext(), R.string.cancel_login, Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onError(FacebookException error) {
+                busyDialogue.dismiss();
                 Toast.makeText(getApplicationContext(), R.string.error_login, Toast.LENGTH_SHORT).show();
             }
         });
@@ -125,6 +129,7 @@ public class Login_Activity extends AppCompatActivity {
 
                 if (user != null) {
 //                    Log.d("Firebase Token: ",""+user.getIdToken(true).getResult().getToken());
+                    busyDialogue.dismiss();
                     userSessionManager.updateUserLoggedIN(true);
                     goMainScreen();
                 }
@@ -166,9 +171,10 @@ public class Login_Activity extends AppCompatActivity {
                 String useremail = objdata.getString("email");
                 String name = objdata.getString("name");
                 String auth_token = objdata.getString("authentication_token");
+                userSessionManager.setUserDetails(""+userId, name, useremail,mobile);
 
-
-                Intent verifyMobile = new Intent(Login_Activity.this, VerifyMobileNumber.class);
+                new UserSessionManager(Login_Activity.this).updateUserLoggedIN(true);
+                Intent verifyMobile = new Intent(Login_Activity.this, MainActivity.class);
                 verifyMobile.putExtra("name", name);
                 verifyMobile.putExtra("id", userId);
                 verifyMobile.putExtra("email", useremail);
@@ -256,7 +262,7 @@ public class Login_Activity extends AppCompatActivity {
             packet.put("password",password);
             //packet.put("name", name);
             //packet.put("token","1/fFAGRNJru1FTz70BzhT3Zg");
-            packet.put("phone", mobile);
+            packet.put("mobile", mobile);
 
             packet.put("token", userSessionManager.getUserDeviceToken());
 

@@ -96,13 +96,13 @@ public class GiftCategoryFragment extends Fragment {
         ((MainActivity)getActivity()).updateTitle("Select Gift Tree Category");
         addData();
         Config.SHOWHOME = true;
+        Config.SHOWCATEGORY = false;
         listener = new OnRecyclerViewItemClickListener() {
             @Override
             public void onRecyclerViewItemClicked(int position, int id) {
                   try{
                       GiftCategory category = categoryList.get(position);
                       Fragment fragment = new PaymentScreen();
-                     // Config.SHOWHOME = false;
                       Bundle extras = new Bundle();
                       extras.putParcelable("category", category);
                       if (fragment != null) {

@@ -84,10 +84,8 @@ public class UserSessionManager {
      * Get stored session data
      * */
     public HashMap<String, String> getUserDetails(){
-
         //Use hashmap to store user credentials
         HashMap<String, String> user = new HashMap<String, String>();
-
         // user name
         user.put(KEY_USERID, pref.getString(KEY_USERID, null));
         user.put(KEY_PROFILE_PIC, pref.getString(KEY_PROFILE_PIC, null));

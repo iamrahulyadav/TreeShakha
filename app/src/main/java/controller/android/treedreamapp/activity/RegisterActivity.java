@@ -180,8 +180,8 @@ public class RegisterActivity extends AppCompatActivity {
                 finish();*/
 
 
-
-                Intent verifyMobile = new Intent(RegisterActivity.this, VerifyMobileNumber.class);
+                new UserSessionManager(RegisterActivity.this).updateUserLoggedIN(true);
+                Intent verifyMobile = new Intent(RegisterActivity.this, MainActivity.class);
                 verifyMobile.putExtra("name", name);
                 verifyMobile.putExtra("id", userId);
                 verifyMobile.putExtra("email", useremail);
@@ -268,7 +268,7 @@ public class RegisterActivity extends AppCompatActivity {
             packet.put("password",password);
             packet.put("name", name);
           //  packet.put("token","1/fFAGRNJru1FTz70BzhT3Zg");
-            packet.put("phone", mobile);
+            packet.put("mobile", mobile);
 
             packet.put("token", userSessionManager.getUserDeviceToken());
 

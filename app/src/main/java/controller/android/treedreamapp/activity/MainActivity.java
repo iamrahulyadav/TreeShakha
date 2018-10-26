@@ -47,11 +47,12 @@ import controller.android.treedreamapp.fragments.PrivacyPolicyFragment;
 import controller.android.treedreamapp.fragments.TrackTree;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-private Toolbar toolbar;
-private FloatingActionButton fab;
-private Context context;
-private TextView userName,userEmail;
-private ImageView userProfile,goProfile;
+        private Toolbar toolbar;
+        private FloatingActionButton fab;
+        private Context context;
+        private TextView userName,userEmail;
+        private ImageView userProfile,goProfile;
+        private UserSessionManager userSessionManager;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,26 +60,9 @@ private ImageView userProfile,goProfile;
         setContentView(R.layout.activity_main);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        final UserSessionManager userSessionManager=new UserSessionManager(this);
+        userSessionManager = new UserSessionManager(this);
         context = MainActivity.this;
-        /*Button fab = (Button) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-               *//* Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();*//*
-                Fragment fragment = new GiftCategoryFragment();
-                Config.SHOWHOME = false;
-                updateTitle("Select Gift Tree Category");
-                if (fragment != null) {
-                    FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                    ft.replace(R.id.frame, fragment);
-                    ft.commit();
-                }
 
-            }
-        });
-*/
         if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_SMS) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.READ_SMS, Manifest.permission.RECEIVE_SMS}, 101);
         }
@@ -100,18 +84,30 @@ private ImageView userProfile,goProfile;
         goProfile = headerLayout.findViewById(R.id.goProfile);
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         try {
-            if (user != null) {
-                String name = user.getDisplayName();
-                String email = user.getEmail();
-                Uri photoUrl = user.getPhotoUrl();
-                String uid = user.getUid();
-               // Log.d("pic path: ",""+photoUrl.getPath());
-                userName.setText(name);
-                userEmail.setText(email);
-                //Picasso.with(MainActivity.this).load().into(userProfile);
-                Picasso.get().load("https://graph.facebook.com/" + photoUrl.getPath()+ "?type=large").into(userProfile);
+            if(userSessionManager.isUserLoggedIn()) {
+                if (user != null) {
+                    String name = user.getDisplayName();
+                    String email = user.getEmail();
+                    Uri photoUrl = user.getPhotoUrl();
+                    String uid = user.getUid();
+                    // Log.d("pic path: ",""+photoUrl.getPath());
+                    userName.setText(name);
+                    userEmail.setText(email);
+                    //Picasso.with(MainActivity.this).load().into(userProfile);
+                    Picasso.get().load("https://graph.facebook.com/" + photoUrl.getPath() + "?type=large").into(userProfile);
 
-            } else {
+                }else{
+                   Bundle extras = getIntent().getExtras();
+                   if(extras!= null){
+                       userName.setText(userSessionManager.getUserDetails().get("name"));
+                       userEmail.setText(userSessionManager.getUserDetails().get("email"));
+                       //Picasso.with(MainActivity.this).load().into(userProfile);
+                    //   Picasso.get().load("https://graph.facebook.com/" + photoUrl.getPath() + "?type=large").into(userProfile);
+
+                   }
+                }
+
+            }else {
                 goLoginScreen();
             }
         }catch (NullPointerException e){
@@ -124,6 +120,7 @@ private ImageView userProfile,goProfile;
             public void onClick(View v) {
                 Intent goProfile = new Intent(MainActivity.this, MyProfile.class);
                 startActivity(goProfile);
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
             }
         });
     }
@@ -142,8 +139,9 @@ private ImageView userProfile,goProfile;
                     FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
                     ft.replace(R.id.frame, fragment);
                     ft.commit();
+                   // overridePendingTransition(R.anim.slide_out_right, R.anim.slide_in_left);
                 }
-            }if(Config.SHOWCATEGORY){
+            } else if(Config.SHOWCATEGORY){
                 Fragment fragment = new GiftCategoryFragment();
                 Config.SHOWHOME = false;
                 updateTitle("Select Gift Tree Category");
@@ -151,9 +149,10 @@ private ImageView userProfile,goProfile;
                     FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
                     ft.replace(R.id.frame, fragment);
                     ft.commit();
+                   // overridePendingTransition(R.anim.slide_out_right, R.anim.slide_in_left);
                 }
             }
-            else {
+            else if(!Config.SHOWHOME){
                 super.onBackPressed();
             }
         }
@@ -161,16 +160,19 @@ private ImageView userProfile,goProfile;
 
     private void goLoginScreen() {
         Intent intent = new Intent(this, Login_Activity.class);
+
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
     }
 
     public void logout(View view) {
+        userSessionManager.updateUserLoggedIN(false);
         FirebaseAuth.getInstance().signOut();
         LoginManager.getInstance().logOut();
         goLoginScreen();
     }
     private void logout() {
+        userSessionManager.updateUserLoggedIN(false);
         FirebaseAuth.getInstance().signOut();
         LoginManager.getInstance().logOut();
         goLoginScreen();
@@ -181,17 +183,12 @@ private ImageView userProfile,goProfile;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        //getMenuInflater().inflate(R.menu.main, menu);
         menu.clear();
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
@@ -220,7 +217,7 @@ private ImageView userProfile,goProfile;
             fragment = new Dashboard();
             title = "Dashboard";
         } else if (id == R.id.nav_gift) {
-            fragment = new GiftTree();
+            fragment = new GiftCategoryFragment();
             title = "Gift Tree";
         } else if (id == R.id.nav_order_history) {
             fragment = new OrderHistory();
@@ -255,6 +252,7 @@ private ImageView userProfile,goProfile;
         if (fragment != null) {
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.replace(R.id.frame, fragment);
+           // overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
             ft.commit();
         }
     }
@@ -271,8 +269,6 @@ private ImageView userProfile,goProfile;
 
         Uri uri = Uri . parse ("market://details?id=" + context.getPackageName());
         Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
-        // To count with Play market backstack, After pressing back button,
-        // to taken back to our application, we need to add following flags to intent.
         goToMarket.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY |
                 Intent.FLAG_ACTIVITY_NEW_DOCUMENT |
                 Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
@@ -289,9 +285,9 @@ private ImageView userProfile,goProfile;
         try {
             Intent i = new Intent(Intent.ACTION_SEND);
             i.setType("text/plain");
-            i.putExtra(Intent.EXTRA_SUBJECT, ""+R.string.app_name);
-            String sAux = "\nLet me recommend you this application\n\n";
-            sAux = sAux + "https://play.google.com/store/apps/details?id=the.package.id \n\n";
+            i.putExtra(Intent.EXTRA_SUBJECT, ""+context.getResources().getString(R.string.app_name));
+            String sAux = "\nJoin me "+context.getResources().getString(R.string.app_name)+"\n\n";
+            sAux = sAux + "https://play.google.com/store/apps/details?id="+ context.getPackageName() +"\n\n";
             i.putExtra(Intent.EXTRA_TEXT, sAux);
             startActivity(Intent.createChooser(i, "choose one"));
         } catch(Exception e) {

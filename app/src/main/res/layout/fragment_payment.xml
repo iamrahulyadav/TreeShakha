@@ -2,7 +2,7 @@
 <android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#AFF"
+    android:background="@color/themeColor"
     >
     <LinearLayout
         android:layout_width="match_parent"
@@ -24,6 +24,26 @@
         android:layout_marginLeft="20dp"
 
         />
+
+
+        <EditText
+            android:id="@+id/GiftTitle"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:text=""
+            android:layout_marginTop="50dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:hint="Gift to whome"
+            android:textSize="16sp"
+            android:paddingLeft="5dp"
+            android:background="@color/white"
+            android:inputType="textCapWords"
+            android:textColor="@color/black"
+            android:layout_alignParentRight="true"
+            />
+
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -31,7 +51,7 @@
         android:padding="10dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="20dp"
         android:orientation="vertical"
 
         >
@@ -74,10 +94,12 @@
                 />
             <EditText
                 android:id="@+id/quantity"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="100dp"
+                android:layout_height="30dp"
                 android:text=" 2 Tree"
                 android:textSize="16sp"
+                android:background="@drawable/round_shape"
+                android:inputType="number"
                 android:textColor="@color/black"
                 android:layout_alignParentRight="true"
                 />
