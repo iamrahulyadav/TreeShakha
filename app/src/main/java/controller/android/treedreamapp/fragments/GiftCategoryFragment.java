@@ -93,7 +93,7 @@ public class GiftCategoryFragment extends Fragment {
         categoryRecyclerview.addItemDecoration(new DividerItemDecoration(getContext(),
                 DividerItemDecoration.VERTICAL));
         categoryRecyclerview.setLayoutManager(mLayoutManager);
-        ((MainActivity)getActivity()).updateTitle("Select Gift Tree Category");
+        ((MainActivity)getActivity()).updateTitle("Gift Tree ");
         addData();
         Config.SHOWHOME = true;
         Config.SHOWCATEGORY = false;
@@ -113,6 +113,8 @@ public class GiftCategoryFragment extends Fragment {
                       }
                   }catch (NullPointerException e){
                       Log.e("NullPointerExcep: ",""+e.getLocalizedMessage());
+                  }catch (ArrayIndexOutOfBoundsException e){
+                      Log.e("ArrayIndexExcep: ",""+e.getLocalizedMessage());
                   }
             }
         };

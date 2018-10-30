@@ -9,6 +9,8 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.List;
 
 import controller.android.treedreamapp.R;
@@ -24,7 +26,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder
 
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        private TextView title, price;
+        private TextView title, price,status,date;
         private ImageView thumbnail;
         private RelativeLayout layout;
         private MyViewHolder(View view) {
@@ -32,6 +34,8 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder
             layout = (RelativeLayout) view.findViewById(R.id.layout);
             title = (TextView) view.findViewById(R.id.categoryName);
             price = (TextView) view.findViewById(R.id.price);
+            status = (TextView) view.findViewById(R.id.status);
+            date = (TextView) view.findViewById(R.id.date);
             thumbnail = (ImageView) view.findViewById(R.id.categoryIcon);
 
         }
@@ -50,7 +54,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.category_view, parent, false);
+                .inflate(R.layout.order_view, parent, false);
 
         return new MyViewHolder(itemView);
     }
@@ -59,13 +63,12 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
         Order album = albumList.get(position);
         holder.title.setText(album.getTitle());
-        holder.price.setText("Rs. "+album.getStatus());
-       // Picasso.get().load(albumList.get(position).getIcon()).into(holder.thumbnail);
+        holder.price.setText("\u20B9"+album.getAmount());
+        holder.date.setText(album.getOrderDate());
+        holder.status.setText(album.getStatus());
+        Picasso.get().load(albumList.get(position).getThumbnail()).into(holder.thumbnail);
 
-        // loading album cover using Glide library
-
-
-        holder.layout.setOnClickListener(new View.OnClickListener() {
+          holder.layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                listener.onRecyclerViewItemClicked(position, -1);

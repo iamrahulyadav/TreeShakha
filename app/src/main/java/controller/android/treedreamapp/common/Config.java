@@ -28,10 +28,11 @@ public class Config {
     public static final int NOTIFICATION_ID_BIG_IMAGE = 101;
     public static boolean SHOWHOME = false;
     public static boolean SHOWCATEGORY = false;
-   // public static boolean SHOWHOME = false;
+    public static boolean SHOWORDER = false;
     public static String SUCCESS = "success";
     public static String ERROR = "error";
     public static String STATUS = "status";
+    public static String STATUSMSG = "Successful";
     public static String MESSAGE = "message";
    // public static String MSG = "msg";
     public class KeyName{

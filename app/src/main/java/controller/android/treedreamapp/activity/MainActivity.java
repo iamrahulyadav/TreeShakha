@@ -120,6 +120,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             public void onClick(View v) {
                 Intent goProfile = new Intent(MainActivity.this, MyProfile.class);
                 startActivity(goProfile);
+                DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+                if (drawer.isDrawerOpen(GravityCompat.START)) {
+                    drawer.closeDrawer(GravityCompat.START);
+                }
                 overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
             }
         });
@@ -144,12 +148,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             } else if(Config.SHOWCATEGORY){
                 Fragment fragment = new GiftCategoryFragment();
                 Config.SHOWHOME = false;
-                updateTitle("Select Gift Tree Category");
+                updateTitle("Gift Tree");
                 if (fragment != null) {
                     FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
                     ft.replace(R.id.frame, fragment);
                     ft.commit();
                    // overridePendingTransition(R.anim.slide_out_right, R.anim.slide_in_left);
+                }
+            } else if(Config.SHOWORDER){
+                Fragment fragment = new OrderHistory();
+                Config.SHOWHOME = false;
+                updateTitle("Order History");
+                if (fragment != null) {
+                    FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                    ft.replace(R.id.frame, fragment);
+                    ft.commit();
+                    // overridePendingTransition(R.anim.slide_out_right, R.anim.slide_in_left);
                 }
             }
             else if(!Config.SHOWHOME){

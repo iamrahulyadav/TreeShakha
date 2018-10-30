@@ -2,7 +2,7 @@ package controller.android.treedreamapp.common;
 
 public class Constants {
 
-    public static final String merchantMid = "rxazcv89315285244163";
+    public static final String merchantMid = "uzYNdm43691474826589";
     // Key in your staging and production MID available in your dashboard
     public static final String merchantKey = "gKpu7IKaLSbkchFS";
     // Key in your staging and production MID available in your dashboard
