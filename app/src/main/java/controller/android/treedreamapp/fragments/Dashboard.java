@@ -28,14 +28,18 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.WeakHashMap;
 
 import controller.android.treedreamapp.R;
 import controller.android.treedreamapp.activity.MainActivity;
@@ -43,6 +47,7 @@ import controller.android.treedreamapp.common.Api_Url;
 import controller.android.treedreamapp.common.CallBackInterface;
 import controller.android.treedreamapp.common.CallWebService;
 import controller.android.treedreamapp.common.Config;
+import controller.android.treedreamapp.model.Plant;
 
 
 public class Dashboard extends Fragment implements OnMapReadyCallback,LocationListener {
@@ -53,12 +58,15 @@ public class Dashboard extends Fragment implements OnMapReadyCallback,LocationLi
     private double lattitude=0.0;
     private double longitude = 0.0;
     private GoogleMap googleMaps;
+    private List<Plant> plantList;
+    private HashMap<String, Integer> mHashMap = new HashMap<>();
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_dashboard, null,false);
         Config.SHOWHOME = false;
-
+        setData();
         Button fab = (Button) rootView.findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,7 +94,6 @@ public class Dashboard extends Fragment implements OnMapReadyCallback,LocationLi
             ActivityCompat.requestPermissions(getActivity(), new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION}, 101);
 
         }else {
-
              getLocation();
         }
 
@@ -96,12 +103,58 @@ public class Dashboard extends Fragment implements OnMapReadyCallback,LocationLi
             public void onMapReady(GoogleMap googleMap) {
                 googleMaps = googleMap;
                 googleMaps.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-
                 getLocation();
             }
         });
 
+
         return rootView;
+    }
+
+    private void setData(){
+        plantList = new ArrayList<>();
+        Plant plant1 = new Plant();
+        plant1.setId(1);
+        plant1.setTitle("Peepal Tree");
+        plant1.setSubTitle("Birthday Gift to Rachit");
+        plant1.setPlantationDate("14/08/2015");
+        plant1.setAddress("Himmatpur Tundla Firozabad");
+        plant1.setLattitude(27.282365);
+        plant1.setLongitude(78.326144);
+
+
+        Plant plant2 = new Plant();
+        plant2.setId(2);
+        plant2.setTitle("Peepal Tree");
+        plant2.setSubTitle("Birthday Gift to Mukul");
+        plant2.setPlantationDate("14/12/2016");
+        plant2.setAddress("Tundla Firozabad");
+        plant2.setLattitude(27.226200);
+        plant2.setLongitude(78.241900);
+
+        Plant plant3 = new Plant();
+        plant3.setId(3);
+        plant3.setTitle("Mango Tree");
+        plant3.setSubTitle("Birthday Gift to Kesari");
+        plant3.setPlantationDate("21/03/2018");
+        plant3.setAddress("Sector-44 noida UP");
+        plant3.setLattitude(28.5555);
+        plant3.setLongitude(77.3339);
+
+        Plant plant4 = new Plant();
+        plant4.setId(4);
+        plant4.setTitle("Neem Tree");
+        plant4.setSubTitle("Birthday Gift to Ekta");
+        plant4.setPlantationDate("21/07/2015");
+        plant4.setAddress("Sector-45 Noida UP");
+        plant4.setLattitude(28.535517);
+        plant4.setLongitude(77.391029);
+
+
+        plantList.add(plant1);
+        plantList.add(plant2);
+        plantList.add(plant3);
+        plantList.add(plant4);
     }
 
     @Override
@@ -112,26 +165,35 @@ public class Dashboard extends Fragment implements OnMapReadyCallback,LocationLi
     @Override
     public void onMapReady(GoogleMap googleMap) {
         googleMaps = googleMap;
-        googleMap.addMarker(new MarkerOptions()
-                .position(new LatLng(27.282365, 78.326144))
-                .title("Himmatpur")
-                .snippet("Peepal Tree")
-                .icon(BitmapDescriptorFactory.fromResource(R.drawable.tree)));
+        for(int i=0; i< plantList.size(); i++) {
+            Plant plant = plantList.get(i);
 
-        googleMap.addMarker(new MarkerOptions()
-                .position(new LatLng(28.535517,77.391029))
-                .title("Noida")
-                .snippet("Banyan Tree")
-                .icon(BitmapDescriptorFactory.fromResource(R.drawable.tree)));
-
-        googleMap.addMarker(new MarkerOptions()
-                .position(new LatLng(27.226200, 78.241900))
-                .title("Tundla Firozabad")
-                 .snippet("Mango Tree")
-                .icon(BitmapDescriptorFactory.fromResource(R.drawable.tree)));
-                //.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
-
-        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(27.282365, 78.326144), 10));
+           Marker marker =  googleMap.addMarker(new MarkerOptions()
+                    .position(new LatLng(plant.getLattitude(),plant.getLongitude()))
+                    .title(plant.getTitle()+" "+plant.getSubTitle())
+                    .snippet(plant.getAddress())
+                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.tree)));
+           String id = marker.getId();
+            mHashMap.put(id, i);
+        }
+        if(googleMap!= null)
+        googleMaps.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+            @Override
+            public void onInfoWindowClick(Marker marker) {
+                int pos = mHashMap.get(marker.getId());
+                Fragment fragment = new PlantDetailsFragment();
+                Config.SHOWHOME = false;
+                Bundle extras = new Bundle();
+                extras.putParcelable("plant", plantList.get(pos));
+                if (fragment != null) {
+                    fragment.setArguments(extras);
+                    FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+                    ft.replace(R.id.frame, fragment);
+                    ft.commit();
+                    mHashMap = null;
+                }
+            }
+        });
 
     }
 
@@ -214,6 +276,8 @@ public class Dashboard extends Fragment implements OnMapReadyCallback,LocationLi
 
     }
 
+
+
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {
 
@@ -254,7 +318,7 @@ public class Dashboard extends Fragment implements OnMapReadyCallback,LocationLi
             @Override
             public void onFailure(String str) {
                 Log.e("failure: ",""+str);
-                Toast.makeText(getActivity(),"login Faild email or password incorrect",Toast.LENGTH_SHORT).show();
+
             }
         });
 

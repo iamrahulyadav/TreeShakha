@@ -16,21 +16,29 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import controller.android.treedreamapp.R;
+import controller.android.treedreamapp.activity.MainActivity;
 import controller.android.treedreamapp.common.Api_Url;
 import controller.android.treedreamapp.common.CallBackInterface;
 import controller.android.treedreamapp.common.CallWebService;
+import controller.android.treedreamapp.common.Config;
+import controller.android.treedreamapp.model.Plant;
 
 public class PlantDetailsFragment extends Fragment {
 
     private View rootView;
+    private Plant plant;
 
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
-
-        return super.onCreateView(inflater, container, savedInstanceState);
+            rootView = inflater.inflate(R.layout.fragment_plant_details, null, false);
+        ((MainActivity)getActivity()).updateTitle("Plant Details ");
+        Config.SHOWHOME = true;
+        //Config.SHOWCATEGORY = true;
+            plant = getArguments().getParcelable("plant");
+        return rootView;
     }
 
 
@@ -67,7 +75,7 @@ public class PlantDetailsFragment extends Fragment {
             @Override
             public void onFailure(String str) {
                 Log.e("failure: ",""+str);
-                Toast.makeText(getActivity(),"login Faild email or password incorrect",Toast.LENGTH_SHORT).show();
+
             }
         });
 

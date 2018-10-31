@@ -1,11 +1,14 @@
 package controller.android.treedreamapp.model;
 
-public class Plant {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Plant implements Parcelable {
     private int id;
     private String title;
     private String subTitle;
-    private long lattitude;
-    private long longitude;
+    private double lattitude;
+    private double longitude;
     private String address;
     private String images[];
     private String plantationDate;
@@ -34,19 +37,19 @@ public class Plant {
         this.subTitle = subTitle;
     }
 
-    public long getLattitude() {
+    public double getLattitude() {
         return lattitude;
     }
 
-    public void setLattitude(long lattitude) {
+    public void setLattitude(double lattitude) {
         this.lattitude = lattitude;
     }
 
-    public long getLongitude() {
+    public double getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(long longitude) {
+    public void setLongitude(double longitude) {
         this.longitude = longitude;
     }
 
@@ -84,6 +87,48 @@ public class Plant {
 
     private String treeName;
 
+
+    public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
+        public Plant createFromParcel(Parcel in) {
+            return new Plant(in);
+        }
+
+        public Plant[] newArray(int size) {
+            return new Plant[size];
+        }
+    };
+
+
+    // Parcelling part
+    private Plant(Parcel in){
+        this.id = in.readInt();
+        this.title = in.readString();
+        this.subTitle =  in.readString();
+        this.address = in.readString();
+        this.plantationDate = in.readString();
+        this.lattitude = in.readDouble();
+        this.longitude = in.readDouble();
+    }
+
+    public Plant(){
+
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(this.id);
+        dest.writeString(this.title);
+        dest.writeString(this.subTitle);
+        dest.writeString(this.address);
+        dest.writeString(this.plantationDate);
+        dest.writeDouble(this.lattitude);
+        dest.writeDouble(this.longitude);
+    }
 
 
 }

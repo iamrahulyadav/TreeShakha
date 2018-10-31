@@ -70,7 +70,6 @@ public class GiftTree extends Fragment {
             @Override
             public void onFailure(String str) {
                 Log.e("failure: ",""+str);
-                Toast.makeText(getActivity(),"login Faild email or password incorrect",Toast.LENGTH_SHORT).show();
             }
         });
 

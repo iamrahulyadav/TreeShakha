@@ -14,7 +14,7 @@ import controller.android.treedreamapp.common.Config;
 
 public class About extends Fragment {
     private View rootView;
-    String data = "<h1>Privacy Policy</h1>\n" +
+    String data = "<h1>About Us</h1>\n" +
             "\n" +
             "\n" +
             "<p>Effective date: September 28, 2018</p>\n" +

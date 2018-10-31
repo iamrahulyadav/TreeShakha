@@ -236,9 +236,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.nav_order_history) {
             fragment = new OrderHistory();
             title = "Order History";
-        } else if (id == R.id.nav_myteam) {
+        /*} else if (id == R.id.nav_myteam) {
             fragment = new MyTeam();
-            title = "My Team";
+            title = "My Team";*/
         } else if(id == R.id.nav_tracktree){
             fragment = new TrackTree();
             title = "Order Track";

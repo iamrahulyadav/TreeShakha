@@ -20,10 +20,10 @@
             android:id="@+id/nav_tracktree"
             android:icon="@drawable/ic_menu_slideshow"
             android:title="Track Your Tree" />
-        <item
+        <!--<item
             android:id="@+id/nav_myteam"
             android:icon="@drawable/group"
-            android:title="My Team" />
+            android:title="My Team" />-->
         <item
             android:id="@+id/nav_share"
             android:icon="@drawable/ic_menu_share"
