@@ -3,6 +3,8 @@ package controller.android.treedreamapp.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.ArrayList;
+
 public class Plant implements Parcelable {
     private int id;
     private String title;
@@ -10,7 +12,7 @@ public class Plant implements Parcelable {
     private double lattitude;
     private double longitude;
     private String address;
-    private String images[];
+    private ArrayList<String> images;
     private String plantationDate;
 
     public int getId() {
@@ -61,11 +63,11 @@ public class Plant implements Parcelable {
         this.address = address;
     }
 
-    public String[] getImages() {
+    public ArrayList<String> getImages() {
         return images;
     }
 
-    public void setImages(String[] images) {
+    public void setImages(ArrayList<String> images) {
         this.images = images;
     }
 
@@ -108,6 +110,7 @@ public class Plant implements Parcelable {
         this.plantationDate = in.readString();
         this.lattitude = in.readDouble();
         this.longitude = in.readDouble();
+        this.images = in.readArrayList(null);
     }
 
     public Plant(){
@@ -128,6 +131,7 @@ public class Plant implements Parcelable {
         dest.writeString(this.plantationDate);
         dest.writeDouble(this.lattitude);
         dest.writeDouble(this.longitude);
+        dest.writeList(images);
     }
 
 

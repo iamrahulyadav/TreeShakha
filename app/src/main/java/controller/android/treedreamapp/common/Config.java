@@ -29,6 +29,7 @@ public class Config {
     public static boolean SHOWHOME = false;
     public static boolean SHOWCATEGORY = false;
     public static boolean SHOWORDER = false;
+    public static boolean SHOWPLANTDETAILS = false;
     public static String SUCCESS = "success";
     public static String ERROR = "error";
     public static String STATUS = "status";
