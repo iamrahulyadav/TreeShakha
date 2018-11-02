@@ -138,7 +138,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             if(Config.SHOWHOME){
                 Fragment fragment = new Dashboard();
                 Config.SHOWHOME = false;
-                updateTitle("Dashboard");
+                updateTitle("My Plants");
                 if (fragment != null) {
                     FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
                     ft.replace(R.id.frame, fragment);
@@ -158,7 +158,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             } else if(Config.SHOWORDER){
                 Fragment fragment = new OrderHistory();
                 Config.SHOWHOME = false;
-                updateTitle("Order History");
+                updateTitle("Track Orders");
                 if (fragment != null) {
                     FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
                     ft.replace(R.id.frame, fragment);
@@ -229,29 +229,29 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         String title = "";
         if (id == R.id.nav_dashboard) {
             fragment = new Dashboard();
-            title = "Dashboard";
+            title = "My Plants";
         } else if (id == R.id.nav_gift) {
             fragment = new GiftCategoryFragment();
             title = "Gift Tree";
         } else if (id == R.id.nav_order_history) {
             fragment = new OrderHistory();
-            title = "Order History";
+            title = "Track Orders";
         /*} else if (id == R.id.nav_myteam) {
             fragment = new MyTeam();
             title = "My Team";*/
-        } else if(id == R.id.nav_tracktree){
+        /*} else if(id == R.id.nav_tracktree){
             fragment = new TrackTree();
-            title = "Order Track";
+            title = "Order Track";*/
         }else if (id == R.id.nav_share) {
             share();
             fragment = new Dashboard();
-            title = "Dashboard";
+            title = "My Plants";
         } else if (id == R.id.nav_aboutus) {
             fragment = new About();
             title = "About Us";
         }else if( id == R.id.nav_rateus){
             rateMe();
-            title = "Dashboard";
+            title = "My Plants";
             fragment = new Dashboard();
         }else if(id == R.id.nav_privacy){
             title = "Privacy Policy";
@@ -259,7 +259,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }else if(id == R.id.nav_login){
              logout();
             fragment = new Dashboard();
-            title = "Dashboard";
+            title = "My Plants";
         }
         //replacing the fragment
         updateTitle(title);
